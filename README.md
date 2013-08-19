@@ -1,4 +1,4 @@
 url-devourer-example
 ====================
 
-VertX example project.
+URL grabber. Just an example of VertX based VertX Async network application.
