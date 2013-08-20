@@ -3,6 +3,7 @@ package net.borov.integration.java;
 import net.borov.DevourerServer;
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
+import org.vertx.java.core.AsyncResult;
 import org.vertx.java.core.Handler;
 import org.vertx.java.core.eventbus.Message;
 import org.vertx.java.core.http.HttpClientResponse;
@@ -11,13 +12,6 @@ import org.vertx.testtools.TestVerticle;
 
 import static org.vertx.testtools.VertxAssert.*;
 
-/**
- * If you see it, than I've forgotten javadoc
- *
- * @author Denis Golovachev
- * @author $Author$ (current maintainer)
- * @since 1.0
- */
 public class DevourerServerVerticleTest extends TestVerticle {
 
     JsonObject config = new JsonObject("{ " +
@@ -27,12 +21,22 @@ public class DevourerServerVerticleTest extends TestVerticle {
             "\"dataExportTopic\": \"url.process.raw\", " +
             "\"flushTimeout\": 2}");
 
-    //HttpClient httpClient = vertx.createHttpClient().setPort(8080);
+    @Override
+    public void start() {
+        initialize();
+        container.deployVerticle(DevourerServer.class.getName(), config, new Handler<AsyncResult<String>>() {
+            @Override
+            public void handle(AsyncResult<String> event) {
+                assertTrue(event.succeeded());
+                startTests();
+            }
+        });
+    }
 
     @Test
-    public void shouldFlushOnTimeout() {
-        container.deployVerticle(DevourerServer.class.getName(), config);
+    public void shouldFlushOnBufferOverflow() {
         performRequest();
+        performRequest(); // Reaches buffer size
         vertx.eventBus().registerHandler("url.process.raw", new Handler<Message>() {
             @Override
             public void handle(Message event) {
@@ -43,10 +47,8 @@ public class DevourerServerVerticleTest extends TestVerticle {
     }
 
     @Test
-    public void shouldFlushOnBufferOverflow() {
-        container.deployVerticle(DevourerServer.class.getName(), config);
+    public void shouldFlushOnTimeout() {
         performRequest();
-        performRequest(); // Reaches buffer size
         vertx.eventBus().registerHandler("url.process.raw", new Handler<Message>() {
             @Override
             public void handle(Message event) {
