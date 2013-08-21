@@ -17,6 +17,7 @@ public class PrivateDomainExtractor implements Function<String, String> {
     @Override
     public @Nullable
     String apply(@Nullable String item) {
+        if(item == null) return null;
         try {
             return tryExtractPrivateDomain(item);
         } catch (IllegalStateException ex) { // contains no private domain
@@ -24,7 +25,7 @@ public class PrivateDomainExtractor implements Function<String, String> {
         }
     }
 
-    private String tryExtractPrivateDomain(String item) {
+    private String tryExtractPrivateDomain(@Nullable String item) {
         InternetDomainName domainName = InternetDomainName.from(item);
         return domainName.topPrivateDomain().name();
     }

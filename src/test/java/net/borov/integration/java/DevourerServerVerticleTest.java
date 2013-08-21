@@ -19,6 +19,7 @@ public class DevourerServerVerticleTest extends TestVerticle {
             "\"host\": \"localhost\", " +
             "\"port\": 8080, " +
             "\"dataExportTopic\": \"url.process.raw\", " +
+            "\"statisticTopic\": \"stat\", " +
             "\"flushTimeout\": 2}");
 
     @Override

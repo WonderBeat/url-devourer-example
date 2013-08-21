@@ -23,6 +23,7 @@ public class DomainExtractor implements Function<String, String> {
 
     @Override
     public @Nullable String apply(@Nullable String item) {
+       if(item == null) return null;
        Matcher matcher = urlPattern.matcher(item);
         if(matcher.matches()) {
             return matcher.group(1);

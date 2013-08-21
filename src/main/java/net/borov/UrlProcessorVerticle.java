@@ -18,6 +18,10 @@ import org.vertx.java.platform.Verticle;
  */
 public class UrlProcessorVerticle extends Verticle {
 
+
+    private Function<String, String> urlProcessor = Functions.compose(
+            new PrivateDomainExtractor(), new DomainExtractor()); // don't know how to inject this. yet.
+
     public void start() {
         JsonObject config = container.config();
         final String inTopic = config.getString("inputTopic");
@@ -32,9 +36,6 @@ public class UrlProcessorVerticle extends Verticle {
             }
         });
     }
-
-    private Function<String, String> urlProcessor = Functions.compose(
-            new PrivateDomainExtractor(), new DomainExtractor()); // don't know how to inject this. yet.
 
     private Iterable<String> doProcess(Iterable<String> items) {
         return Iterables.filter(Iterables.transform(items, urlProcessor), Predicates.<String>notNull());
