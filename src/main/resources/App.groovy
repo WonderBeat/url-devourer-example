@@ -6,6 +6,7 @@ def config = [
         host: 'localhost',
         port: 8080,
         dataExportTopic: 'url.process.raw',
+        statisticTopic: 'url.statistics',
         flushTimeout: 2, // seconds
         instances: 2
     ],
@@ -30,4 +31,5 @@ container.deployVerticle('net.borov.DevourerServer', config.server, config.serve
 container.deployVerticle('net.borov.UrlProcessorVerticle', config.urlProcessor, config.urlProcessor.instances)
 
 // In memory statistic is not appropriate for production environment ;)
-container.deployVerticle('net.borov.statistics', config.topListAggregator, config.topListAggregator.instances)
+container.deployVerticle('net.borov.statistics.InMemoryStatisticVerticle', config.topListAggregator,
+        config.topListAggregator.instances)
