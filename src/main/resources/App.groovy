@@ -18,10 +18,16 @@ def config = [
 
     topListAggregator: [
         topic: 'url.process.done',
+        statisticTopic: 'url.statistics',
         cacheSize: 1000, // items
-        workerNode: true
+        topListSize: 10,
+        workerNode: true,
+        instances: 1
     ]
 ]
 
 container.deployVerticle('net.borov.DevourerServer', config.server, config.server.instances)
 container.deployVerticle('net.borov.UrlProcessorVerticle', config.urlProcessor, config.urlProcessor.instances)
+
+// In memory statistic is not appropriate for production environment ;)
+container.deployVerticle('net.borov.statistics', config.topListAggregator, config.topListAggregator.instances)

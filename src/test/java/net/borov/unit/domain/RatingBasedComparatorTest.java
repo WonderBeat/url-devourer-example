@@ -1,5 +1,7 @@
 package net.borov.unit.domain;
 
+import net.borov.domain.RatedElement;
+import net.borov.domain.RatingBasedComparator;
 import org.junit.Assert;
 import org.junit.Test;
 

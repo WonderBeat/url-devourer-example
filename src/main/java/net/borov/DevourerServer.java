@@ -24,10 +24,11 @@ public class DevourerServer extends Verticle {
         String host = config.getString("host");
         setFlushTimer(config.getInteger("flushTimeout"));
         dataExportTopic = config.getString("dataExportTopic");
-        initServerVerticle(bufferSize, port, host);
+        initGrabberVerticle(bufferSize, port, host);
+
     }
 
-    private void initServerVerticle(final int bufferSize, int port, String host) {
+    private void initGrabberVerticle(final int bufferSize, int port, String host) {
         final HttpServer server = vertx.createHttpServer();
         queryBuffer = new JsonArray();
         server.requestHandler(new Handler<HttpServerRequest>() {
