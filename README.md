@@ -23,5 +23,5 @@ Design goal is performance and scalability.
 Just Proof of Concept, how distributed async application can be based on VertX.
 
 ##Findings
-VertX does'n provide any IOC functionality. It'll be difficult to maintain complex project. Embeded VerteX can be a solution.
+VertX doesn't provide any IOC functionality. It'll be difficult to maintain complex project. Embeded VerteX can be a solution.
 Polyglot background forces us to use JSON messages on event bus. May be overhead.
