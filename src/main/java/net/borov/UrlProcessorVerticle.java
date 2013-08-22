@@ -33,11 +33,14 @@ public class UrlProcessorVerticle extends Verticle {
                 JsonArray output = new JsonArray(Iterators.toArray(doProcess((Iterable) input).iterator(),
                         Object.class));
                 vertx.eventBus().publish(outTopic, output);
+                if(container.logger().isInfoEnabled()) {
+                    container.logger().info(output.size() + " out of " + input.size() + " records processed");
+                }
             }
         });
     }
 
-    private Iterable<String> doProcess(Iterable<String> items) {
+    private Iterable<String> doProcess(Iterable <String> items) {
         return Iterables.filter(Iterables.transform(items, urlProcessor), Predicates.<String>notNull());
     }
 
