@@ -9,13 +9,13 @@ def config = [
         dataExportTopic: 'url.process.raw',
         statisticTopic: 'url.statistics',
         flushTimeout: 2, // seconds
-        instances: 2
+        instances: 10
     ],
 
     urlProcessor: [
         inputTopic: 'url.process.raw',
         outputTopic: 'url.process.done',
-        instances: 2
+        instances: 5
     ],
 
     topListAggregator: [
