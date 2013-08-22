@@ -60,7 +60,7 @@ public class DevourerServerVerticleTest extends TestVerticle {
     }
 
     private void performRequest() {
-        vertx.createHttpClient().setPort(8080).post("/someurl", new Handler<HttpClientResponse>() {
+        vertx.createHttpClient().setPort(8080).post("/add", new Handler<HttpClientResponse>() {
             @Override
             public void handle(HttpClientResponse resp) {
                 assertEquals(200, resp.statusCode());
