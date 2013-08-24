@@ -27,7 +27,7 @@ public class InMemoryStatisticVerticle extends Verticle {
      */
     SortedMap<String, Long> ratedElements = Maps.newTreeMap();
 
-    Ordering<String> valueOrdering = Ordering.natural().onResultOf(Functions.forMap(ratedElements));
+    Ordering<String> naturalOrdering = Ordering.natural().onResultOf(Functions.forMap(ratedElements));
 
     @Override
     public void start() {
@@ -59,7 +59,7 @@ public class InMemoryStatisticVerticle extends Verticle {
         vertx.eventBus().registerHandler(statisticTopic, new Handler<Message>() {
             @Override
             public void handle(Message event) {
-                List<String> top = valueOrdering.greatestOf(ratedElements.keySet(), topListSize);
+                List<String> top = naturalOrdering.greatestOf(ratedElements.keySet(), topListSize);
                 JsonArray json = new JsonArray(top.toArray());
                 event.reply(json);
             }
